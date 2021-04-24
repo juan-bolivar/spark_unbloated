@@ -1,0 +1,12 @@
+---
+- name: spark installation
+  hosts: all
+  tasks:
+    - package:
+        name: software_properties_common
+    - apt_repo:
+        name: ppa:webupd8team/java
+    - package:
+        name: *
+    - package:
+        name: openjk-11-jdk
