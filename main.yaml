@@ -19,10 +19,36 @@
     package:
       name: scala
       state: present
+
+  - name: install unzip
+    package:
+      name: unzip
+      state: present
+
   - name: downloading spark
     get_url: 
-      url: 'www.google.com' 
-      dest: spark.tgz
+      url:  'https://downloads.apache.org/spark/spark-3.1.1/spark-3.1.1-bin-hadoop2.7.tgz'
+      dest: ~/spark.tgz
+      force: yes
+
+  - name: creating archive
+    file:
+      path: /usr/local/spark
+      state: directory
+      force: yes
+  - name: unarchive spark
+    command: 'tar xvf ~/spark.tgz'
+    tags: unarchive
+
+  - name: moving files
+    copy: 
+      remote_src: True
+      src: spark-3.1.1-bin-hadoop2.7
+      dest: /usr/local/spark
+
+     
+    
+
 
      
     
