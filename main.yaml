@@ -11,17 +11,18 @@
       append: yes
       state: present
       create_home: True 
-
-  - name: step1
+  - name: installing java
+    package: 
+      name: openjdk-8-jre-headless
+      state: present
+  - name: installing scala
     package:
-      name: software-properties-common
+      name: scala
       state: present
+  - name: downloading spark
+    get_url: 
+      url: 'www.google.com' 
+      dest: spark.tgz
 
-  - name: step2
-    apt_repository:
-      repo: ppa:webupd8team/java
-      state: present
-
-  - package:
-      name: openjk-11-jdk
-      state: present
+     
+    
