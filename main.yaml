@@ -1,10 +1,20 @@
 ---
 - name: spark installation
-  hosts: localhost 
+  hosts: all
   tasks:
+
+  - name: Creating user 
+    user:
+      name:  ansible
+      shell: /bin/bash
+      groups: sudo 
+      append: yes
+      state: present
+      create_home: True 
+
   - name: step1
     package:
-      name: software_properties_common
+      name: software-properties-common
       state: present
 
   - name: step2
