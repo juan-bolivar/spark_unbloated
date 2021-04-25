@@ -46,12 +46,27 @@
     copy: 
       remote_src: True
       src: spark-3.1.1-bin-hadoop2.7
-      dest: /usr/local/spark
+      dest: /usr/local/
   - name: profile spark
     command: "echo 'export PATH=/usr/local/spark/bin:$PATH' >> ~/.profile ; source ~/.profile"
 
+  - name: copying configuring files
+    copy:
+      src: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh.template
+      dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
+      remote_src: yes
 
-     
+  - name: editing file
+    lineinfile:
+      path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
+      line: 'export SPARK_MASTER_HOST=159.65.47.69'
+
+  - name: editing file
+    lineinfile:
+      path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
+      line: 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre' 
+
+
     
 
 
