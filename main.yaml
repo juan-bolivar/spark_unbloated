@@ -126,5 +126,10 @@
     tags: pip
     command: 'python3 -m pip install koalas pandas pyspark findspark'
 
-    
+  - name: copying spark notebook
+    copy:
+      src: 'Spark-notebook.ipynb'
+      dest: '.'
+      owner: ansible
+     
     
