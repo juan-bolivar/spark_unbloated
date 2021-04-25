@@ -11,10 +11,12 @@
       append: yes
       state: present
       create_home: True 
+
   - name: installing java
     package: 
       name: openjdk-8-jre-headless
       state: present
+      update_cache: yes 
   - name: installing scala
     package:
       name: scala
@@ -45,6 +47,9 @@
       remote_src: True
       src: spark-3.1.1-bin-hadoop2.7
       dest: /usr/local/spark
+  - name: profile spark
+    command: "echo 'export PATH=/usr/local/spark/bin:$PATH' >> ~/.profile ; source ~/.profile"
+
 
      
     
