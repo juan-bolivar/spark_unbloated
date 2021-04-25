@@ -135,10 +135,9 @@
     tags: pip
     command: 'python3 get-pip.py' 
 
-
   - name: installing requirements 
     tags: pip
-    command: 'python3 -m pip install koalas pandas'
+    command: 'python3 -m pip install koalas pandas pyspark findspark'
 
     
     
