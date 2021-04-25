@@ -56,23 +56,37 @@
       dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
       remote_src: yes
 
-  - name: editing file
+  - name: copying workers file 
+    copy:
+      src: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers.template
+      dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers
+      remote_src: yes
+
+
+  - name: editing config file
     lineinfile:
       path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
       line: 'export SPARK_MASTER_HOST=159.65.47.69'
 
-  - name: editing file
+  - name: editing config file
     lineinfile:
       path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
       line: 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre' 
 
+  - name: editing config file
+    blockinfile: 
+      dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers
+      content: "159.65.47.69
+                159.65.40.156" 
+
+
   - name: editing bashrc 
     lineinfile:
       path: ~/.bashrc 
-      line: 'export PATH=$PATH:/usr/local/spark/bin' 
+      line: 'export PATH=$PATH:/usr/local/spark-3.1.1-bin-hadoop2.7/bin' 
 
-  - name: refresh bashrc
-    command: 'source ~/.bashrc'
+        #  - name: refresh bashrc
+        #command: 'source ~/.bashrc'
 
 
 
