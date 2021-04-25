@@ -66,6 +66,15 @@
       path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
       line: 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre' 
 
+  - name: editing bashrc 
+    lineinfile:
+      path: ~/.bashrc 
+      line: 'export PATH=$PATH:/usr/local/spark/bin' 
+
+  - name: refresh bashrc
+    command: 'source ~/.bashrc'
+
+
 
     
 
