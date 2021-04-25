@@ -11,7 +11,29 @@
       append: yes
       state: present
       create_home: True 
-  
+
+  - name: SSH KeyGen command
+    tags: run
+    shell: > 
+      ssh-keygen -q -b 2048 -t rsa -N "" -C "creating SSH" -f ~/.ssh/id_rsa
+      creates="~/.ssh/id_rsa"
+
+  - name: Fetch the keyfile from the node to master
+    tags: run
+    fetch: 
+      src: "~/.ssh/id_rsa.pub"
+      dest: "buffer/{{ansible_hostname}}-id_rsa.pub"
+      flat: yes
+
+  - name: Copy the key add to authorized_keys using Ansible module
+    tags: runcd
+    authorized_key:
+      user: root
+      state: present
+      key: "{{ lookup('file','buffer/{{item}}-id_rsa.pub')}}"
+    when: "{{ item != ansible_hostname }}"
+    with_items: 
+      - "{{ groups['multi'] }}"      
 
   - name: installing java
     package: 
@@ -67,18 +89,22 @@
   - name: editing config file
     lineinfile:
       path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
-      line: 'export SPARK_MASTER_HOST=159.65.47.69'
+      line: 'export SPARK_MASTER_HOST=165.227.118.177'
 
   - name: editing config file
     lineinfile:
       path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
       line: 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre' 
 
-  - name: editing config file
-    blockinfile: 
-      dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers
-      content: "159.65.47.69
-                159.65.40.156" 
+        # - name: editing config file
+        #blockinfile: 
+        #dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers
+        #content: "
+        #        165.227.118.177
+        #       159.89.188.151
+        #       159.89.42.27
+        #       159.89.184.90
+        #       " 
 
 
   - name: editing bashrc 
@@ -89,10 +115,26 @@
         #  - name: refresh bashrc
         #command: 'source ~/.bashrc'
 
+  - name: adding workers 
+    tags: runcd
+    lineinfile:
+      path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
+      line: 'item.ansible_ssh_host' 
+    with_items: 
+      - "{{ groups['multi'] }}"      
 
+  - name: getting pip 
+    tags: pip
+    command: 'curl "https://bootstrap.pypa.io/get-pip.py" -o get-pip.py' 
+
+  - name: installing  pip
+    tags: pip
+    command: 'python3 get-pip.py' 
+
+
+  - name: installing requirements 
+    tags: pip
+    command: 'python3 -m pip install koalas pandas'
 
     
-
-
-     
     
