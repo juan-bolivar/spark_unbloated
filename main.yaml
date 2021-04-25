@@ -115,21 +115,19 @@
       - "{{ groups['multi'] }}"      
 
   - name: getting pip 
-    tags: pip
     command: 'curl "https://bootstrap.pypa.io/get-pip.py" -o get-pip.py' 
 
   - name: installing  pip
-    tags: pip
     command: 'python3 get-pip.py' 
 
   - name: installing requirements 
-    tags: pip
     command: 'python3 -m pip install koalas pandas pyspark findspark'
 
   - name: copying spark notebook
+    tags: notebook
     copy:
       src: 'Spark-notebook.ipynb'
-      dest: '.'
+      dest: '/home/ansible/Spark-notebook.ipynb'
       owner: ansible
      
     
