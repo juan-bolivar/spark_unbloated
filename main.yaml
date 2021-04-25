@@ -93,25 +93,12 @@
       path: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/spark-env.sh
       line: 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre' 
 
-        # - name: editing config file
-        #blockinfile: 
-        #dest: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers
-        #content: "
-        #        165.227.118.177
-        #       159.89.188.151
-        #       159.89.42.27
-        #       159.89.184.90
-        #       " 
-
 
   - name: editing bashrc 
     lineinfile:
       path: ~/.bashrc 
       line: 'export PATH=$PATH:/usr/local/spark-3.1.1-bin-hadoop2.7/bin' 
 
-        #  - name: refresh bashrc
-        #command: 'source ~/.bashrc'
-        #
   - name: copying workers file 
     copy:
       src: /usr/local/spark-3.1.1-bin-hadoop2.7/conf/workers.template
